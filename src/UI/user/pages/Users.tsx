@@ -11,7 +11,7 @@ const Users: React.FC = () => {
     return (
         <div className={styles['users-page']}>
             <UserList
-                users={[]}
+                users={USERS}
             />
         </div>
     );
