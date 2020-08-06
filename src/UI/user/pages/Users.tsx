@@ -1,9 +1,14 @@
 import React from 'react';
 
+// Components
+import UserList from '../components/UserList/UserList';
+
 const Users = () => {
     return (
         <div>
-            Users Page
+            <UserList
+                users={[]}
+            />
         </div>
     );
 };
