@@ -8,8 +8,6 @@
         margin: 10px 5px;
         padding: 10px;
         background: #525252;
-        border-radius: 20px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -18,8 +16,6 @@
 
         &:hover {
             transform: translateY(-4px);
-            cursor: pointer;
-            box-shadow: 0 12px 24px 0 rgba(0, 0, 0, 0.1);
             background-color: orange;
 
             .content {
@@ -58,7 +54,7 @@
             .name {
                 margin: 0;
                 font-size: 1.2rem;
-                font-weight: 600;
+                font-weight: 700;
                 color: orange;
             }
 
@@ -66,6 +62,7 @@
                 margin-top: 5px;
                 color: #fff;
                 font-size: 0.7rem;
+                font-weight: 600;
             }
 
             .places {
