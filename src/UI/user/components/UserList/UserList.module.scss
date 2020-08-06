@@ -4,6 +4,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    .card {
+        background: #525252;
+
+        h2 {
+            color: #fff;
+        }
+    }
 }
 
 .user-list-container {

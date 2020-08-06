@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './Users.module.scss';
 
 // Data
 import { USERS } from '../../../data/dummyUsers';
@@ -8,9 +9,9 @@ import UserList from '../components/UserList/UserList';
 
 const Users: React.FC = () => {
     return (
-        <div>
+        <div className={styles['users-page']}>
             <UserList
-                users={USERS}
+                users={[]}
             />
         </div>
     );
