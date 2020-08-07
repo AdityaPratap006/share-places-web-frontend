@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './SideDrawer.module.scss';
 
-const SideDrawer = () => {
+const SideDrawer: React.FC = (props) => {
     return (
-        <div>
-
-        </div>
+        <aside className={styles['side-drawer']}>
+            {props.children}
+        </aside>
     );
 };
 
