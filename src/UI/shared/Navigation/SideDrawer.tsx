@@ -5,6 +5,7 @@ import { CSSTransition } from 'react-transition-group';
 
 interface SideDrawerProps {
     show: boolean;
+    onClick?: () => void;
 }
 
 const SideDrawer: React.FC<SideDrawerProps> = (props) => {
@@ -21,7 +22,7 @@ const SideDrawer: React.FC<SideDrawerProps> = (props) => {
             mountOnEnter
             unmountOnExit
         >
-            <aside className={styles['side-drawer']}>
+            <aside className={styles['side-drawer']} onClick={props.onClick}>
                 {props.children}
             </aside>
         </CSSTransition>
