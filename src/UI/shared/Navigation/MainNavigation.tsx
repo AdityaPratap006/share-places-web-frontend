@@ -20,20 +20,12 @@ const MainNavigation: React.FC = () => {
 
     return (
         <React.Fragment>
-            {
-                drawerIsOpen
-                    ? (
-                        <React.Fragment>
-                            <SideDrawer>
-                                <nav className={styles['drawer-nav']}>
-                                    <NavLinks />
-                                </nav>
-                            </SideDrawer>
-                            <BackDrop onClick={closeDrawer} />
-                        </React.Fragment>
-                    )
-                    : null
-            }
+            {drawerIsOpen ? <BackDrop onClick={closeDrawer} /> : null}
+            <SideDrawer show={drawerIsOpen}>
+                <nav className={styles['drawer-nav']}>
+                    <NavLinks />
+                </nav>
+            </SideDrawer>
             <MainHeader className={styles['navigation']}>
                 <button className={styles['menu-btn']} onClick={openDrawer}>
                     <span />
