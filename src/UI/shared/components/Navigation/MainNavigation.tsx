@@ -20,7 +20,7 @@ const MainNavigation: React.FC = () => {
             <h1 className={styles['title']}>
                 <Link to="/">SharePlaces</Link>
             </h1>
-            <nav>
+            <nav className={styles['header-nav']}>
                 <NavLinks />
             </nav>
         </MainHeader>
