@@ -3,6 +3,7 @@ import styles from './MainNavigation.module.scss';
 import { Link } from 'react-router-dom';
 
 import MainHeader from './MainHeader';
+import NavLinks from './NavLinks';
 
 interface MainNavigationProps {
 
@@ -20,7 +21,7 @@ const MainNavigation: React.FC = () => {
                 <Link to="/">SharePlaces</Link>
             </h1>
             <nav>
-                ...
+                <NavLinks />
             </nav>
         </MainHeader>
     );
