@@ -15,33 +15,33 @@
 
     a {
         border: 1px solid transparent;
-        color: #292929;
+        color: white;
         text-decoration: none;
         padding: 0.5rem;
 
         &:hover {
-            background: #f8df00;
-            border-color: #292929;
-            color: #292929;
+            background: orange;
+            border-color: white;
+            color: white;
         }
 
         &:active {
-            background: #f8df00;
-            border-color: #292929;
-            color: #292929;
+            background: orange;
+            border-color: white;
+            color: white;
         }
     }
 
     a.active {
-        background: #f8df00;
-        border-color: #292929;
-        color: #292929;
+        background: orange;
+        border-color: white;
+        color: white;
     }
 
     button {
         cursor: pointer;
-        border: 1px solid #292929;
-        color: #292929;
+        border: 1px solid white;
+        color: white;
         background: transparent;
         padding: 0.5rem;
         font: inherit;
@@ -51,12 +51,12 @@
         }
 
         &:hover {
-            background: #292929;
+            background: white;
             color: white;
         }
 
         &:active {
-            background: #292929;
+            background: white;
             color: white;
         }
     }
@@ -81,13 +81,13 @@
             background: transparent;
 
             &:hover {
-                background: #f8df00;
-                color: #292929;
+                background: orange;
+                color: white;
             }
 
             &:active {
-                background: #f8df00;
-                color: #292929;
+                background: orange;
+                color: white;
             }
         }
     }
