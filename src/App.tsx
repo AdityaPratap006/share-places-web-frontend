@@ -7,6 +7,7 @@ import MainNavigation from './UI/shared/Navigation/MainNavigation';
 // Pages
 import Users from './UI/user/pages/Users';
 import NewPlace from './UI/places/pages/NewPlace';
+import UserPlaces from './UI/places/pages/UserPlaces';
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
         <Switch>
           <Route exact path="/">
             <Users />
+          </Route>
+          <Route exact path="/:userId/places" >
+            <UserPlaces />
           </Route>
           <Route exact path="/places/new">
             <NewPlace />
