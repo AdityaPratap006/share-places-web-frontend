@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
 // Components
-import MainNavigation from './UI/shared/components/Navigation/MainNavigation';
+import MainNavigation from './UI/shared/Navigation/MainNavigation';
 
 // Pages
 import Users from './UI/user/pages/Users';
