@@ -7,9 +7,9 @@ interface MainHeaderProps {
 
 const MainHeader: React.FC<MainHeaderProps> = (props) => {
     return (
-        <div className={`${styles['main-header']} ${props.className}`}>
+        <header className={`${styles['main-header']} ${props.className}`}>
             {props.children}
-        </div>
+        </header>
     );
 };
 

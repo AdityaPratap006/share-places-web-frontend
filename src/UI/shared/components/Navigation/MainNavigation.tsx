@@ -10,7 +10,7 @@ interface MainNavigationProps {
 
 const MainNavigation: React.FC = () => {
     return (
-        <MainHeader className={styles['header']}>
+        <MainHeader className={styles['navigation']}>
             <button className={styles['menu-btn']}>
                 <span />
                 <span />
@@ -19,6 +19,9 @@ const MainNavigation: React.FC = () => {
             <h1 className={styles['title']}>
                 <Link to="/">SharePlaces</Link>
             </h1>
+            <nav>
+                ...
+            </nav>
         </MainHeader>
     );
 };
