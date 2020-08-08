@@ -90,8 +90,13 @@ const NewPlace: React.FC = () => {
         dispatch(inputChangeAction);
     }, []);
 
+    const formSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        console.log(formState);
+    }
+
     return (
-        <form className={styles['place-form']}>
+        <form className={styles['place-form']} onSubmit={formSubmitHandler}>
             <Input
                 id="title"
                 type="text"
@@ -109,7 +114,18 @@ const NewPlace: React.FC = () => {
                 errorText="Please enter a valid description (at least 5 characters)."
                 getInput={inputChangeHandler}
             />
-            <Button type="submit" disabled={!formState.isValid}>
+            <Input
+                id="address"
+                label="Address"
+                element={InputElement.INPUT}
+                validators={[VALIDATOR_REQUIRE()]}
+                errorText="An address is required."
+                getInput={inputChangeHandler}
+            />
+            <Button
+                type="submit"
+                disabled={!formState.isValid}
+            >
                 ADD PLACE
             </Button>
         </form>
