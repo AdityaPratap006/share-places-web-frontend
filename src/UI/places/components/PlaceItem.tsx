@@ -31,9 +31,9 @@ const PlaceItem: React.FC<PlaceItemProps> = (props) => {
                     <p>{place.description}</p>
                 </div>
                 <div className={styles['actions']}>
-                    <Button>VIEW ON MAP</Button>
-                    <Button>EDIT</Button>
-                    <Button>DELETE</Button>
+                    <Button inverse>VIEW ON MAP</Button>
+                    <Button to={`/places/${place.id}`}>EDIT</Button>
+                    <Button danger>DELETE</Button>
                 </div>
             </Card>
         </li>

@@ -1,14 +1,18 @@
 .place-item {
     margin: 1rem 0;
 
+
     .content {
         padding: 0;
+        background: #525252;
 
         .info {
             padding: 1rem;
             text-align: center;
+            color: white;
 
             h2 {
+                color: orange;
                 margin: 0 0 0.5rem 0;
             }
 
