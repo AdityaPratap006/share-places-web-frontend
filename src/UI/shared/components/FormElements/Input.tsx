@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import styles from './Input.module.scss';
 
 import { InputElement } from '../../../../models';
@@ -8,12 +8,13 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
     element?: InputElement;
     errorText?: string;
     validators?: InputValidator[];
+    getInput: (id: string | undefined, value: string, isValid: boolean) => void;
 }
 
 type InputEvent = React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>;
 
 interface InputState {
-    value: any;
+    value: string;
     isValid: boolean;
     isTouched: boolean;
 }
@@ -56,6 +57,13 @@ const inputReducer = (state: InputState, action: InputAction): InputState => {
 const Input: React.FC<InputProps> = (props) => {
 
     const [inputState, dispatch] = useReducer(inputReducer, INITIAL_STATE);
+
+    const { id, getInput } = props;
+    const { value, isValid } = inputState;
+
+    useEffect(() => {
+        getInput(id, value, isValid);
+    }, [id, value, isValid, getInput]);
 
     const changeHandler = (event: InputEvent) => {
         const changeAction: InputAction = {
