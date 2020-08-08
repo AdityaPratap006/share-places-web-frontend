@@ -14,6 +14,7 @@ const NewPlace: React.FC = () => {
                 type="text"
                 label="Title"
                 element={InputElement.INPUT}
+                errorText="Please enter a valid title."
             />
         </form>
     );
