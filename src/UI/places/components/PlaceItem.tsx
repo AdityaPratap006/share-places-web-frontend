@@ -33,7 +33,9 @@ const PlaceItem: React.FC<PlaceItemProps> = (props) => {
                 footerClassName={styles['modal-actions']}
                 footerContent={<Button onClick={closeMapHandler}>CLOSE</Button>}
             >
-                My Map
+                <div className={styles['map-container']}>
+                    <h1>GOOGLE MAP</h1>
+                </div>
             </Modal>
             <li className={styles['place-item']}>
                 <Card className={styles['content']}>
