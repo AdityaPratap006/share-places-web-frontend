@@ -6,7 +6,7 @@ export interface Place {
     address: string;
     creatorId: string;
     location: {
-        lat: number | string;
-        lng: number | string;
+        lat: number;
+        lng: number;
     };
 }

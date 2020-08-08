@@ -8,7 +8,7 @@ import { Place } from '../../../models';
 import Card from '../../shared/components/Card/Card';
 import Button from '../../shared/components/FormElements/Button';
 import Modal from '../../shared/components/Modal/Modal';
-
+import Map from '../../shared/components/Map/Map';
 
 interface PlaceItemProps {
     place: Place;
@@ -34,7 +34,10 @@ const PlaceItem: React.FC<PlaceItemProps> = (props) => {
                 footerContent={<Button onClick={closeMapHandler}>CLOSE</Button>}
             >
                 <div className={styles['map-container']}>
-                    <h1>GOOGLE MAP</h1>
+                    <Map
+                        center={place.location}
+                        zoom={14}
+                    />
                 </div>
             </Modal>
             <li className={styles['place-item']}>
