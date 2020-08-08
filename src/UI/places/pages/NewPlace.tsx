@@ -4,6 +4,9 @@ import styles from './NewPlace.module.scss';
 // Models
 import { InputElement } from '../../../models';
 
+// Utils
+import { VALIDATOR_REQUIRE } from '../../../utils/validators';
+
 // Components
 import Input from '../../shared/components/FormElements/Input';
 
@@ -14,7 +17,8 @@ const NewPlace: React.FC = () => {
                 type="text"
                 label="Title"
                 element={InputElement.INPUT}
-                errorText="Please enter a valid title."
+                validators={[VALIDATOR_REQUIRE()]}
+                errorText="A title is required."
             />
         </form>
     );
