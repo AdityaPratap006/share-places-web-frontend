@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useReducer } from 'react';
 import styles from './NewPlace.module.scss';
 
 // Models
@@ -9,11 +9,85 @@ import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../../utils/validator
 
 // Components
 import Input from '../../shared/components/FormElements/Input';
+import Button from '../../shared/components/FormElements/Button';
+
+interface FormState {
+    inputs: {
+        [key: string]: {
+            value: string;
+            isValid: boolean;
+        }
+    };
+    isValid: boolean;
+}
+
+enum FormActionTypes {
+    INPUT_CHANGE,
+}
+
+interface FormAction {
+    type: FormActionTypes;
+    inputId: string;
+    isValid: boolean;
+    value: string;
+}
+
+const INITIAL_STATE: FormState = {
+    inputs: {
+        title: {
+            value: '',
+            isValid: false,
+        },
+        description: {
+            value: '',
+            isValid: false,
+        },
+    },
+    isValid: false,
+};
+
+const checkFormValidity = (state: FormState, action: FormAction): boolean => {
+    let formIsValid = true;
+    for (const inputId in state.inputs) {
+        if (inputId === action.inputId) {
+            formIsValid = formIsValid && action.isValid;
+        } else {
+            formIsValid = formIsValid && state.inputs[inputId].isValid;
+        }
+    }
+    return formIsValid;
+}
+
+const formReducer = (state: FormState, action: FormAction): FormState => {
+    switch (action.type) {
+        case FormActionTypes.INPUT_CHANGE:
+            const formIsValid = checkFormValidity(state, action);
+            return {
+                ...state,
+                inputs: {
+                    ...state.inputs,
+                    [action.inputId]: { value: action.value, isValid: action.isValid },
+                },
+                isValid: formIsValid,
+            };
+        default:
+            return state;
+    }
+};
 
 const NewPlace: React.FC = () => {
 
-    const titleInputHandler = useCallback((id: string | undefined, value: string, isValid: boolean) => {
+    const [formState, dispatch] = useReducer(formReducer, INITIAL_STATE);
 
+    const inputChangeHandler = useCallback((id: string | undefined, value: string, isValid: boolean) => {
+        const inputChangeAction: FormAction = {
+            type: FormActionTypes.INPUT_CHANGE,
+            inputId: id as string,
+            value: value,
+            isValid: isValid,
+        };
+
+        dispatch(inputChangeAction);
     }, []);
 
     return (
@@ -25,7 +99,7 @@ const NewPlace: React.FC = () => {
                 element={InputElement.INPUT}
                 validators={[VALIDATOR_REQUIRE()]}
                 errorText="A title is required."
-                getInput={titleInputHandler}
+                getInput={inputChangeHandler}
             />
             <Input
                 id="description"
@@ -33,8 +107,11 @@ const NewPlace: React.FC = () => {
                 element={InputElement.TEXT_AREA}
                 validators={[VALIDATOR_MINLENGTH(5)]}
                 errorText="Please enter a valid description (at least 5 characters)."
-                getInput={titleInputHandler}
+                getInput={inputChangeHandler}
             />
+            <Button type="submit" disabled={!formState.isValid}>
+                ADD PLACE
+            </Button>
         </form>
     );
 };
