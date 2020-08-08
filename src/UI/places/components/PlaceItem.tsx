@@ -6,6 +6,7 @@ import { Place } from '../../../models';
 
 // Components
 import Card from '../../shared/components/Card/Card';
+import Button from '../../shared/components/FormElements/Button';
 
 
 interface PlaceItemProps {
@@ -30,9 +31,9 @@ const PlaceItem: React.FC<PlaceItemProps> = (props) => {
                     <p>{place.description}</p>
                 </div>
                 <div className={styles['actions']}>
-                    <button>VIEW ON MAP</button>
-                    <button>EDIT</button>
-                    <button>DELETE</button>
+                    <Button>VIEW ON MAP</Button>
+                    <Button>EDIT</Button>
+                    <Button>DELETE</Button>
                 </div>
             </Card>
         </li>
