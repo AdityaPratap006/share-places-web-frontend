@@ -8,7 +8,7 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
     element?: InputElement;
     errorText?: string;
     validators?: InputValidator[];
-    getInput: (id: string | undefined, value: string | number | readonly string[], isValid: boolean) => void;
+    getInput: (id: string, value: string | number | readonly string[], isValid: boolean) => void;
 }
 
 type InputEvent = React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>;
@@ -62,7 +62,7 @@ const Input: React.FC<InputProps> = (props) => {
     const { value, isValid } = inputState;
 
     useEffect(() => {
-        getInput(id, value, isValid);
+        getInput(id as string, value, isValid);
     }, [id, value, isValid, getInput]);
 
     const changeHandler = (event: InputEvent) => {
