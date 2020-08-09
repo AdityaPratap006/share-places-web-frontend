@@ -11,6 +11,9 @@ import { InputElement } from '../../../models';
 // Utils
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../../utils/validators';
 
+// hooks
+import { useForm, FormState } from '../../shared/hooks';
+
 // Components
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
@@ -24,6 +27,27 @@ const UpdatePlace: React.FC = () => {
 
     const place = PLACES.find(p => p.id === placeId);
 
+    const INITIAL_STATE: FormState = {
+        inputs: {
+            title: {
+                value: place?.title as string,
+                isValid: true,
+            },
+            description: {
+                value: place?.description as string,
+                isValid: true,
+            }
+        },
+        isValid: true,
+    }
+
+    const [formState, inputChangeHandler] = useForm(INITIAL_STATE);
+
+    const formSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        console.log(formState);
+    }
+
     if (!place) {
         return (
             <div className='center'>
@@ -33,7 +57,7 @@ const UpdatePlace: React.FC = () => {
     }
 
     return (
-        <form className={styles['place-form']}>
+        <form className={styles['place-form']} onSubmit={formSubmitHandler}>
             <Input
                 id="title"
                 element={InputElement.INPUT}
@@ -41,9 +65,9 @@ const UpdatePlace: React.FC = () => {
                 label="Title"
                 validators={[VALIDATOR_REQUIRE()]}
                 errorText="A title is required."
-                getInput={() => { }}
-                value={place.title}
-            // valid={true}
+                getInput={inputChangeHandler}
+                initialValue={formState.inputs['title'].value}
+                initialValidity={true}
             />
             <Input
                 id="description"
@@ -51,13 +75,13 @@ const UpdatePlace: React.FC = () => {
                 label="Description"
                 validators={[VALIDATOR_MINLENGTH(5)]}
                 errorText="Please enter a valid description (at least 5 characters)"
-                getInput={() => { }}
-                value={place.description}
-            // valid={true}
+                getInput={inputChangeHandler}
+                initialValue={formState.inputs['description'].value}
+                initialValidity={true}
             />
             <Button
                 type="submit"
-                disabled={true}
+                disabled={!formState.isValid}
             >
                 UPDATE PLACE
             </Button>
