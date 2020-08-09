@@ -17,6 +17,7 @@ import { useForm, FormState } from '../../shared/hooks';
 // Components
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
+import Card from '../../shared/components/Card/Card';
 
 interface UpdatePlaceRouteParams {
     placeId: string;
@@ -46,19 +47,21 @@ const UpdatePlace: React.FC = () => {
     const place = PLACES.find(p => p.id === placeId);
 
     useEffect(() => {
-        setFormDataHandler({
-            inputs: {
-                title: {
-                    value: place?.title as string,
-                    isValid: true,
+        if (place) {
+            setFormDataHandler({
+                inputs: {
+                    title: {
+                        value: place.title,
+                        isValid: true,
+                    },
+                    description: {
+                        value: place.description,
+                        isValid: true,
+                    }
                 },
-                description: {
-                    value: place?.description as string,
-                    isValid: true,
-                }
-            },
-            isValid: true,
-        });
+                isValid: true,
+            });
+        }
         setIsLoading(false);
     }, [place, setFormDataHandler]);
 
@@ -70,7 +73,9 @@ const UpdatePlace: React.FC = () => {
     if (isLoading) {
         return (
             <div className='center'>
-                <h2>Loading...</h2>
+                <Card >
+                    <h2>Loading...</h2>
+                </Card>
             </div>
         );
     }
@@ -78,7 +83,9 @@ const UpdatePlace: React.FC = () => {
     if (!place) {
         return (
             <div className='center'>
-                <h2>Could not find the place!</h2>
+                <Card >
+                    <h2>Could not find the place!</h2>
+                </Card>
             </div>
         );
     }

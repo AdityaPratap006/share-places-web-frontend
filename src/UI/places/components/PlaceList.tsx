@@ -7,6 +7,7 @@ import { Place } from '../../../models';
 // Components
 import Card from '../../shared/components/Card/Card';
 import PlaceItem from './PlaceItem';
+import Button from '../../shared/components/FormElements/Button';
 
 interface PlaceListProps {
     places: Place[];
@@ -17,9 +18,9 @@ const PlaceList: React.FC<PlaceListProps> = (props) => {
     if (props.places.length === 0) {
         return (
             <div className={`${styles['place-list']} center`}>
-                <Card>
+                <Card className={styles['no-places-found-card']}>
                     <h2>No Places found. Maybe create one?</h2>
-                    <button>Share Place</button>
+                    <Button to={`/places/new`}>Share Place</Button>
                 </Card>
             </div>
         );

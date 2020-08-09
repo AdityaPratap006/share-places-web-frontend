@@ -4,4 +4,12 @@
     padding: 0;
     width: 90%;
     max-width: 40rem;
+
+    .no-places-found-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        text-align: center;
+    }
 }
