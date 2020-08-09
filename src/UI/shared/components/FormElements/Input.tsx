@@ -8,13 +8,13 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
     element?: InputElement;
     errorText?: string;
     validators?: InputValidator[];
-    getInput: (id: string | undefined, value: string, isValid: boolean) => void;
+    getInput: (id: string | undefined, value: string | number | readonly string[], isValid: boolean) => void;
 }
 
 type InputEvent = React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>;
 
 interface InputState {
-    value: string;
+    value: string | number | readonly string[];
     isValid: boolean;
     isTouched: boolean;
 }
@@ -29,12 +29,6 @@ interface InputAction {
     val: string;
     validators: InputValidator[];
 }
-
-const INITIAL_STATE: InputState = {
-    value: '',
-    isValid: false,
-    isTouched: false,
-};
 
 const inputReducer = (state: InputState, action: InputAction): InputState => {
     switch (action.type) {
@@ -55,6 +49,12 @@ const inputReducer = (state: InputState, action: InputAction): InputState => {
 }
 
 const Input: React.FC<InputProps> = (props) => {
+
+    const INITIAL_STATE: InputState = {
+        value: props.value || '',
+        isValid: false,
+        isTouched: false,
+    };
 
     const [inputState, dispatch] = useReducer(inputReducer, INITIAL_STATE);
 

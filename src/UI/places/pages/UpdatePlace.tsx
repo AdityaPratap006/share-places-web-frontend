@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './PlaceForm.module.scss';
 import { useParams } from 'react-router-dom';
 
 // Data
@@ -32,7 +33,7 @@ const UpdatePlace: React.FC = () => {
     }
 
     return (
-        <form>
+        <form className={styles['place-form']}>
             <Input
                 id="title"
                 element={InputElement.INPUT}

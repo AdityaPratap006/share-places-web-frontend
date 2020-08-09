@@ -1,5 +1,5 @@
 import React, { useCallback, useReducer } from 'react';
-import styles from './NewPlace.module.scss';
+import styles from './PlaceForm.module.scss';
 
 // Models
 import { InputElement } from '../../../models';
@@ -14,7 +14,7 @@ import Button from '../../shared/components/FormElements/Button';
 interface FormState {
     inputs: {
         [key: string]: {
-            value: string;
+            value: string | number | readonly string[];
             isValid: boolean;
         }
     };
@@ -29,7 +29,7 @@ interface FormAction {
     type: FormActionTypes;
     inputId: string;
     isValid: boolean;
-    value: string;
+    value: string | number | readonly string[];
 }
 
 const INITIAL_STATE: FormState = {
@@ -79,7 +79,7 @@ const NewPlace: React.FC = () => {
 
     const [formState, dispatch] = useReducer(formReducer, INITIAL_STATE);
 
-    const inputChangeHandler = useCallback((id: string | undefined, value: string, isValid: boolean) => {
+    const inputChangeHandler = useCallback((id: string | undefined, value: string | number | readonly string[], isValid: boolean) => {
         const inputChangeAction: FormAction = {
             type: FormActionTypes.INPUT_CHANGE,
             inputId: id as string,
