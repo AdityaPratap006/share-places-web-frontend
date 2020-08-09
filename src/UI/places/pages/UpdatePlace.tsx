@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './PlaceForm.module.scss';
 import { useParams } from 'react-router-dom';
 
@@ -22,30 +22,57 @@ interface UpdatePlaceRouteParams {
     placeId: string;
 }
 
+const INITIAL_STATE: FormState = {
+    inputs: {
+        title: {
+            value: '',
+            isValid: false,
+        },
+        description: {
+            value: '',
+            isValid: false,
+        }
+    },
+    isValid: false,
+}
+
 const UpdatePlace: React.FC = () => {
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
     const { placeId } = useParams<UpdatePlaceRouteParams>();
+
+    const [formState, inputChangeHandler, setFormDataHandler] = useForm(INITIAL_STATE);
 
     const place = PLACES.find(p => p.id === placeId);
 
-    const INITIAL_STATE: FormState = {
-        inputs: {
-            title: {
-                value: place?.title as string,
-                isValid: true,
+    useEffect(() => {
+        setFormDataHandler({
+            inputs: {
+                title: {
+                    value: place?.title as string,
+                    isValid: true,
+                },
+                description: {
+                    value: place?.description as string,
+                    isValid: true,
+                }
             },
-            description: {
-                value: place?.description as string,
-                isValid: true,
-            }
-        },
-        isValid: true,
-    }
-
-    const [formState, inputChangeHandler] = useForm(INITIAL_STATE);
+            isValid: true,
+        });
+        setIsLoading(false);
+    }, [place, setFormDataHandler]);
 
     const formSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log(formState);
+    }
+
+    if (isLoading) {
+        return (
+            <div className='center'>
+                <h2>Loading...</h2>
+            </div>
+        );
     }
 
     if (!place) {

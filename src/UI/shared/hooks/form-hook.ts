@@ -12,16 +12,24 @@ export interface FormState {
 
 enum FormActionTypes {
     INPUT_CHANGE,
+    SET_DATA,
 }
 
-interface FormAction {
-    type: FormActionTypes;
+interface InputChangeAction {
+    type: FormActionTypes.INPUT_CHANGE;
     inputId: string;
     isValid: boolean;
     value: string | number | readonly string[];
 }
 
-const checkFormValidity = (state: FormState, action: FormAction): boolean => {
+interface SetDataAction {
+    type: FormActionTypes.SET_DATA;
+    formData: FormState;
+}
+
+type FormAction = InputChangeAction | SetDataAction;
+
+const checkFormValidity = (state: FormState, action: InputChangeAction): boolean => {
     let formIsValid = true;
     for (const inputId in state.inputs) {
         if (inputId === action.inputId) {
@@ -45,16 +53,21 @@ const formReducer = (state: FormState, action: FormAction): FormState => {
                 },
                 isValid: formIsValid,
             };
+        case FormActionTypes.SET_DATA:
+            return action.formData;
         default:
             return state;
     }
 };
 
-export const useForm = (INITIAL_STATE: FormState): [FormState, (id: string, value: string | number | readonly string[], isValid: boolean) => void] => {
+type InputChangeHandler = (id: string, value: string | number | readonly string[], isValid: boolean) => void;
+type SetFormDataHandler = (formStateData: FormState) => void;
+
+export const useForm = (INITIAL_STATE: FormState): [FormState, InputChangeHandler, SetFormDataHandler] => {
     const [formState, dispatch] = useReducer(formReducer, INITIAL_STATE);
 
     const inputChangeHandler = useCallback((id: string, value: string | number | readonly string[], isValid: boolean) => {
-        const inputChangeAction: FormAction = {
+        const inputChangeAction: InputChangeAction = {
             type: FormActionTypes.INPUT_CHANGE,
             inputId: id,
             value: value,
@@ -64,5 +77,13 @@ export const useForm = (INITIAL_STATE: FormState): [FormState, (id: string, valu
         dispatch(inputChangeAction);
     }, []);
 
-    return [formState, inputChangeHandler];
+    const setFormDataHandler = useCallback((formStateData: FormState) => {
+        const setDataAction: SetDataAction = {
+            type: FormActionTypes.SET_DATA,
+            formData: formStateData,
+        };
+        dispatch(setDataAction);
+    }, []);
+
+    return [formState, inputChangeHandler, setFormDataHandler];
 };
