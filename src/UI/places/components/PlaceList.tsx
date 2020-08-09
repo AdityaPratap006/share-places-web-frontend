@@ -16,7 +16,7 @@ const PlaceList: React.FC<PlaceListProps> = (props) => {
 
     if (props.places.length === 0) {
         return (
-            <div className={`${styles['place-list']} ${styles['center']}`}>
+            <div className={`${styles['place-list']} center`}>
                 <Card>
                     <h2>No Places found. Maybe create one?</h2>
                     <button>Share Place</button>

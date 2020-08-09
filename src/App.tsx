@@ -8,6 +8,7 @@ import MainNavigation from './UI/shared/Navigation/MainNavigation';
 import Users from './UI/user/pages/Users';
 import NewPlace from './UI/places/pages/NewPlace';
 import UserPlaces from './UI/places/pages/UserPlaces';
+import UpdatePlace from './UI/places/pages/UpdatePlace';
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
           </Route>
           <Route exact path="/places/new">
             <NewPlace />
+          </Route>
+          <Route exact path="/places/:placeId">
+            <UpdatePlace />
           </Route>
           <Redirect to="/" />
         </Switch>
