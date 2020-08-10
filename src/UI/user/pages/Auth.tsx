@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styles from './Auth.module.scss';
 
 // Utils
@@ -9,6 +9,9 @@ import { InputElement } from '../../../models';
 
 // hooks
 import { useForm, FormState } from '../../shared/hooks';
+
+// Contexts
+import { AuthContext } from '../../shared/context';
 
 // Components
 import Card from '../../shared/components/Card/Card';
@@ -30,6 +33,7 @@ const INITIAL_STATE: FormState = {
 }
 
 const Auth: React.FC = () => {
+    const auth = useContext(AuthContext);
     const [isLoginMode, setIsLoginMode] = useState<boolean>(true);
     const [formState, inputChangeHandler, setFormData] = useForm(INITIAL_STATE);
 
@@ -61,6 +65,7 @@ const Auth: React.FC = () => {
     const authSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log(formState);
+        auth.login();
     }
 
     return (
