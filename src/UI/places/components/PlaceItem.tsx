@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styles from './PlaceItem.module.scss';
 
 // Models
 import { Place } from '../../../models';
+
+// Contexts
+import { AuthContext } from '../../shared/context';
 
 // Components
 import Card from '../../shared/components/Card/Card';
@@ -15,6 +18,7 @@ interface PlaceItemProps {
 }
 
 const PlaceItem: React.FC<PlaceItemProps> = (props) => {
+    const auth = useContext(AuthContext);
     const [showMap, setShowMap] = useState<boolean>(false);
     const [showDeleteWarning, setShowDeleteWarning] = useState<boolean>(false);
 
@@ -84,8 +88,8 @@ const PlaceItem: React.FC<PlaceItemProps> = (props) => {
                     </div>
                     <div className={styles['actions']}>
                         <Button inverse onClick={openMapHandler}>VIEW ON MAP</Button>
-                        <Button to={`/places/${place.id}`}>EDIT</Button>
-                        <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
+                        {auth.isLoggedIn && <Button to={`/places/${place.id}`}>EDIT</Button>}
+                        {auth.isLoggedIn && <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>}
                     </div>
                 </Card>
             </li>

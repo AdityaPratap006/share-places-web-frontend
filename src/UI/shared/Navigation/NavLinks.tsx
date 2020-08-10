@@ -33,6 +33,15 @@ const NavLinks: React.FC = (props) => {
                     </li>
                 )
             }
+            {
+                auth.isLoggedIn && (
+                    <li>
+                        <button onClick={auth.logout}>
+                            LOGOUT
+                        </button>
+                    </li>
+                )
+            }
         </ul>
     );
 };

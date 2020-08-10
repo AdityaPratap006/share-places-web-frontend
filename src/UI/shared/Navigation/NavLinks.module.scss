@@ -65,6 +65,8 @@
 @media (min-width: 768px) {
     .nav-links {
         flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
 
         li {
             margin: 0 0.5rem;
