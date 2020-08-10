@@ -108,6 +108,7 @@ const Input: React.FC<InputProps> = (props) => {
                     onChange={changeHandler}
                     onBlur={touchHandler}
                     value={inputState.value}
+                    autoComplete={props.autoComplete}
                 />;
             break;
     }

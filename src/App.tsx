@@ -9,6 +9,7 @@ import Users from './UI/user/pages/Users';
 import NewPlace from './UI/places/pages/NewPlace';
 import UserPlaces from './UI/places/pages/UserPlaces';
 import UpdatePlace from './UI/places/pages/UpdatePlace';
+import Auth from './UI/user/pages/Auth';
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
             <UpdatePlace />
           </Route>
           <Route exact path="/auth">
-            <h1>Authentication</h1>
+            <Auth />
           </Route>
           <Redirect to="/" />
         </Switch>
