@@ -51,13 +51,15 @@
         }
 
         &:hover {
-            background: white;
-            color: white;
+            // background: white;
+            color: orange;
+            border: 2px solid orange;
         }
 
         &:active {
-            background: white;
-            color: white;
+            // background: white;
+            color: orange;
+            border: 2px solid orange;
         }
     }
 }

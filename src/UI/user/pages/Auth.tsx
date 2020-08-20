@@ -17,6 +17,12 @@ import { AuthContext } from '../../shared/context';
 import Card from '../../shared/components/Card/Card';
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
+import ErrorModal from '../../shared/components/ErrorModal/ErrorModal';
+import LoadingSpinner from '../../shared/components/LoadingSpinner/LoadingSpinner';
+
+interface ErrorResponse {
+    message?: string;
+}
 
 const INITIAL_STATE: FormState = {
     inputs: {
@@ -35,6 +41,9 @@ const INITIAL_STATE: FormState = {
 const Auth: React.FC = () => {
     const auth = useContext(AuthContext);
     const [isLoginMode, setIsLoginMode] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<ErrorResponse>();
+
     const [formState, inputChangeHandler, setFormData] = useForm(INITIAL_STATE);
 
     const switchModeHandler = () => {
@@ -69,6 +78,7 @@ const Auth: React.FC = () => {
 
         } else {
             try {
+                setIsLoading(true);
                 const response = await fetch(`http://localhost:5000/users/signup`, {
                     method: 'POST',
                     headers: {
@@ -81,19 +91,25 @@ const Auth: React.FC = () => {
                     })
                 });
 
-                const responseData: User = await response.json();
+                const responseData: { user: User } = await response.json();
                 console.log({ responseData });
+                setIsLoading(false);
+                auth.login();
 
-            } catch (error) {
+            } catch (err) {
+                const error = err as Error;
                 console.log({ error });
+                setIsLoading(false);
+                setError({
+                    message: error.message || `Something went wrong, please try again.`,
+                });
             }
         }
-
-        auth.login();
     }
 
     return (
         <Card className={styles['authentication']}>
+            {isLoading && <LoadingSpinner asOverlay />}
             <h2 className={styles['authentication__header']}>Login</h2>
             <hr />
             <form onSubmit={authSubmitHandler}>
