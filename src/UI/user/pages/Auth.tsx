@@ -20,7 +20,8 @@ import Button from '../../shared/components/FormElements/Button';
 import ErrorModal from '../../shared/components/ErrorModal/ErrorModal';
 import LoadingSpinner from '../../shared/components/LoadingSpinner/LoadingSpinner';
 
-interface ErrorResponse {
+interface ResponseData {
+    user?: User;
     message?: string;
 }
 
@@ -42,7 +43,7 @@ const Auth: React.FC = () => {
     const auth = useContext(AuthContext);
     const [isLoginMode, setIsLoginMode] = useState<boolean>(true);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [error, setError] = useState<ErrorResponse>();
+    const [responseError, setResponseError] = useState<string>();
 
     const [formState, inputChangeHandler, setFormData] = useForm(INITIAL_STATE);
 
@@ -75,7 +76,7 @@ const Auth: React.FC = () => {
         event.preventDefault();
 
         if (isLoginMode) {
-
+            setIsLoading(true);
         } else {
             try {
                 setIsLoading(true);
@@ -91,7 +92,11 @@ const Auth: React.FC = () => {
                     })
                 });
 
-                const responseData: { user: User } = await response.json();
+                const responseData: ResponseData = await response.json();
+                if (!response.ok) {
+                    throw new Error(responseData.message);
+                }
+
                 console.log({ responseData });
                 setIsLoading(false);
                 auth.login();
@@ -100,66 +105,74 @@ const Auth: React.FC = () => {
                 const error = err as Error;
                 console.log({ error });
                 setIsLoading(false);
-                setError({
-                    message: error.message || `Something went wrong, please try again.`,
-                });
+                setResponseError(error.message.toUpperCase() || `Something went wrong, please try again.`);
             }
         }
     }
 
+    const clearResponseErrorHandler = () => {
+        setResponseError(undefined);
+    }
+
     return (
-        <Card className={styles['authentication']}>
-            {isLoading && <LoadingSpinner asOverlay />}
-            <h2 className={styles['authentication__header']}>Login</h2>
-            <hr />
-            <form onSubmit={authSubmitHandler}>
-                {
-                    !isLoginMode && (
-                        <Input
-                            element={InputElement.INPUT}
-                            id="name"
-                            type="text"
-                            label="Your Name"
-                            validators={[VALIDATOR_REQUIRE()]}
-                            errorText="Please enter a name."
-                            getInput={inputChangeHandler}
-                        />
-                    )
-                }
-                <Input
-                    id="email"
-                    element={InputElement.INPUT}
-                    type="email"
-                    label="E-mail"
-                    validators={[VALIDATOR_EMAIL()]}
-                    errorText="Please enter a valid email address."
-                    getInput={inputChangeHandler}
-                    autoComplete="username"
-                />
-                <Input
-                    id="password"
-                    element={InputElement.INPUT}
-                    type="password"
-                    label="Password"
-                    validators={[VALIDATOR_MINLENGTH(6)]}
-                    errorText="Please enter a valid password (at least 6 characters)."
-                    getInput={inputChangeHandler}
-                    autoComplete="current-password"
-                />
+        <React.Fragment>
+            <ErrorModal
+                error={responseError}
+                onClear={clearResponseErrorHandler}
+            />
+            <Card className={styles['authentication']}>
+                {isLoading && <LoadingSpinner asOverlay />}
+                <h2 className={styles['authentication__header']}>Login</h2>
+                <hr />
+                <form onSubmit={authSubmitHandler}>
+                    {
+                        !isLoginMode && (
+                            <Input
+                                element={InputElement.INPUT}
+                                id="name"
+                                type="text"
+                                label="Your Name"
+                                validators={[VALIDATOR_REQUIRE()]}
+                                errorText="Please enter a name."
+                                getInput={inputChangeHandler}
+                            />
+                        )
+                    }
+                    <Input
+                        id="email"
+                        element={InputElement.INPUT}
+                        type="email"
+                        label="E-mail"
+                        validators={[VALIDATOR_EMAIL()]}
+                        errorText="Please enter a valid email address."
+                        getInput={inputChangeHandler}
+                        autoComplete="username"
+                    />
+                    <Input
+                        id="password"
+                        element={InputElement.INPUT}
+                        type="password"
+                        label="Password"
+                        validators={[VALIDATOR_MINLENGTH(6)]}
+                        errorText="Please enter a valid password (at least 6 characters)."
+                        getInput={inputChangeHandler}
+                        autoComplete="current-password"
+                    />
+                    <Button
+                        type="submit"
+                        disabled={!formState.isValid}
+                    >
+                        {isLoginMode ? 'LOGIN' : 'SIGN UP'}
+                    </Button>
+                </form>
                 <Button
-                    type="submit"
-                    disabled={!formState.isValid}
+                    inverse
+                    onClick={switchModeHandler}
                 >
-                    {isLoginMode ? 'LOGIN' : 'SIGN UP'}
+                    {isLoginMode ? 'New here? SIGN UP' : 'Already have an account? LOGIN'}
                 </Button>
-            </form>
-            <Button
-                inverse
-                onClick={switchModeHandler}
-            >
-                {isLoginMode ? 'New here? SIGN UP' : 'Already have an account? LOGIN'}
-            </Button>
-        </Card>
+            </Card>
+        </React.Fragment>
     );
 };
 

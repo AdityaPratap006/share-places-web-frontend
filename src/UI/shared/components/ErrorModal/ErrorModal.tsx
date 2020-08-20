@@ -5,7 +5,7 @@ import Button from '../FormElements/Button';
 
 interface ErrorModalProps {
   onClear: () => void;
-  error: string;
+  error: string | undefined;
 }
 
 const ErrorModal: React.FC<ErrorModalProps> = props => {
