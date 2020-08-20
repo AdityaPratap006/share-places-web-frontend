@@ -5,7 +5,7 @@ import styles from './Auth.module.scss';
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../../utils/validators';
 
 // Models
-import { InputElement } from '../../../models';
+import { InputElement, User } from '../../../models';
 
 // hooks
 import { useForm, FormState } from '../../shared/hooks';
@@ -62,9 +62,33 @@ const Auth: React.FC = () => {
         setIsLoginMode(prevMode => !prevMode);
     }
 
-    const authSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    const authSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(formState);
+
+        if (isLoginMode) {
+
+        } else {
+            try {
+                const response = await fetch(`http://localhost:5000/users/signup`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: formState.inputs['name'].value,
+                        email: formState.inputs['email'].value,
+                        password: formState.inputs['password'].value,
+                    })
+                });
+
+                const responseData: User = await response.json();
+                console.log({ responseData });
+
+            } catch (error) {
+                console.log({ error });
+            }
+        }
+
         auth.login();
     }
 

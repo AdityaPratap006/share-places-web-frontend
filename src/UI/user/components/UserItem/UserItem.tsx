@@ -27,7 +27,7 @@ const UserItem: React.FC<UserItemProps> = (props) => {
                 <div className={styles['content']}>
                     <h2 className={styles['name']}>{user.name}</h2>
                     <span className={styles['email']}>{user.email}</span>
-                    <span className={styles['places']}>{user.places} {user.places === 1 ? 'Place' : 'Places'}</span>
+                    <span className={styles['places']}>{user.places.length} {user.places.length === 1 ? 'Place' : 'Places'}</span>
                 </div>
             </Card>
         </Link>
