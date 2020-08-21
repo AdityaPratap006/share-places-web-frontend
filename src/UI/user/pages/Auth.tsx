@@ -8,7 +8,7 @@ import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../.
 import { InputElement, User } from '../../../models';
 
 // hooks
-import { useForm, FormState } from '../../shared/hooks';
+import { useForm, FormState, useHttpClient } from '../../shared/hooks';
 
 // Contexts
 import { AuthContext } from '../../shared/context';
@@ -20,7 +20,7 @@ import Button from '../../shared/components/FormElements/Button';
 import ErrorModal from '../../shared/components/ErrorModal/ErrorModal';
 import LoadingSpinner from '../../shared/components/LoadingSpinner/LoadingSpinner';
 
-interface ResponseData {
+interface UserResponseData {
     user?: User;
     message?: string;
 }
@@ -42,10 +42,10 @@ const INITIAL_STATE: FormState = {
 const Auth: React.FC = () => {
     const auth = useContext(AuthContext);
     const [isLoginMode, setIsLoginMode] = useState<boolean>(true);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [responseError, setResponseError] = useState<string>();
 
+    const { isLoading, responseError, sendRequest, clearError } = useHttpClient<UserResponseData>();
     const [formState, inputChangeHandler, setFormData] = useForm(INITIAL_STATE);
+
 
     const switchModeHandler = () => {
         if (!isLoginMode) {
@@ -75,72 +75,54 @@ const Auth: React.FC = () => {
     const authSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        setIsLoading(true);
-
         if (isLoginMode) {
+            const url = `http://localhost:5000/users/login`;
+            const body = JSON.stringify({
+                email: formState.inputs['email'].value,
+                password: formState.inputs['password'].value,
+            });
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+
             try {
-
-                const response = await fetch(`http://localhost:5000/users/login`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        email: formState.inputs['email'].value,
-                        password: formState.inputs['password'].value,
-                    })
-                });
-
-                const responseData: ResponseData = await response.json();
-                if (!response.ok) {
-                    throw new Error(responseData.message);
-                }
-
+                const responseData = await sendRequest(url, 'POST', body, headers);
                 console.log({ responseData });
-                setIsLoading(false);
+
                 auth.login();
 
             } catch (err) {
                 const error = err as Error;
                 console.log({ error });
-                setIsLoading(false);
-                setResponseError(error.message.toUpperCase() || `Something went wrong, please try again.`);
             }
+
         } else {
+
+            const url = `http://localhost:5000/users/login`;
+            const body = JSON.stringify({
+                username: formState.inputs['name'].value,
+                email: formState.inputs['email'].value,
+                password: formState.inputs['password'].value,
+            });
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+
             try {
-
-                const response = await fetch(`http://localhost:5000/users/signup`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        username: formState.inputs['name'].value,
-                        email: formState.inputs['email'].value,
-                        password: formState.inputs['password'].value,
-                    })
-                });
-
-                const responseData: ResponseData = await response.json();
-                if (!response.ok) {
-                    throw new Error(responseData.message);
-                }
-
+                const responseData = await sendRequest(url, 'POST', body, headers);
                 console.log({ responseData });
-                setIsLoading(false);
+
                 auth.login();
 
             } catch (err) {
                 const error = err as Error;
                 console.log({ error });
-                setIsLoading(false);
-                setResponseError(error.message.toUpperCase() || `Something went wrong, please try again.`);
             }
         }
     }
 
     const clearResponseErrorHandler = () => {
-        setResponseError(undefined);
+        clearError();
     }
 
     return (
