@@ -98,7 +98,7 @@ const Auth: React.FC = () => {
 
         } else {
 
-            const url = `http://localhost:5000/users/login`;
+            const url = `http://localhost:5000/users/signup`;
             const body = JSON.stringify({
                 username: formState.inputs['name'].value,
                 email: formState.inputs['email'].value,
