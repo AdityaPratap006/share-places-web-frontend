@@ -109,8 +109,8 @@ const PlaceItem: React.FC<PlaceItemProps> = (props) => {
                     </div>
                     <div className={styles['actions']}>
                         <Button inverse onClick={openMapHandler}>VIEW ON MAP</Button>
-                        {auth.isLoggedIn && <Button to={`/places/${place.id}`}>EDIT</Button>}
-                        {auth.isLoggedIn && <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>}
+                        {(place.creatorId === auth.userId) && <Button to={`/places/${place.id}`}>EDIT</Button>}
+                        {(place.creatorId === auth.userId) && <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>}
                     </div>
                 </Card>
             </li>
