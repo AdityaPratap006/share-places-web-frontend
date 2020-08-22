@@ -89,7 +89,7 @@ const Auth: React.FC = () => {
                 const responseData = await sendRequest(url, 'POST', body, headers);
                 console.log({ responseData });
 
-                auth.login();
+                auth.login(responseData.user?.id!);
 
             } catch (err) {
                 const error = err as Error;
@@ -112,7 +112,7 @@ const Auth: React.FC = () => {
                 const responseData = await sendRequest(url, 'POST', body, headers);
                 console.log({ responseData });
 
-                auth.login();
+                auth.login(responseData.user?.id!);
 
             } catch (err) {
                 const error = err as Error;
