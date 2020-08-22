@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import { AuthContext } from '../context';
 
-const NavLinks: React.FC = (props) => {
+const NavLinks: React.FC = () => {
     const auth = useContext(AuthContext);
 
     return (
@@ -15,21 +15,21 @@ const NavLinks: React.FC = (props) => {
             {
                 auth.isLoggedIn && (
                     <li>
-                        <NavLink to="/2/places" activeClassName={styles['active']}>MY PLACES</NavLink>
+                        <NavLink exact to={`/${auth.userId}/places`} activeClassName={styles['active']}>MY PLACES</NavLink>
                     </li>
                 )
             }
             {
                 auth.isLoggedIn && (
                     <li>
-                        <NavLink to="/places/new" activeClassName={styles['active']}>ADD PLACE</NavLink>
+                        <NavLink exact to="/places/new" activeClassName={styles['active']}>ADD PLACE</NavLink>
                     </li>
                 )
             }
             {
                 !auth.isLoggedIn && (
                     <li>
-                        <NavLink to="/auth" activeClassName={styles['active']}>LOGIN</NavLink>
+                        <NavLink exact to="/auth" activeClassName={styles['active']}>LOGIN</NavLink>
                     </li>
                 )
             }
