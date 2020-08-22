@@ -46,6 +46,10 @@ const UserPlaces: React.FC = () => {
 
     }, [sendRequest, userId]);
 
+    const placeDeletedHandler = (deletedPlaceId: string) => {
+        setLoadedPlaces(prevPlaces => prevPlaces?.filter(place => place.id !== deletedPlaceId))
+    }
+
     return (
         <React.Fragment>
             <ErrorModal
@@ -63,6 +67,7 @@ const UserPlaces: React.FC = () => {
                 !isLoading && loadedPlaces && (
                     <PlaceList
                         places={loadedPlaces}
+                        onDeletePlace={placeDeletedHandler}
                     />
                 )
             }

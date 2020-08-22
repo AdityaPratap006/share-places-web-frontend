@@ -11,6 +11,7 @@ import Button from '../../shared/components/FormElements/Button';
 
 interface PlaceListProps {
     places: Place[];
+    onDeletePlace: (pid: string) => void;
 }
 
 const PlaceList: React.FC<PlaceListProps> = (props) => {
@@ -33,6 +34,7 @@ const PlaceList: React.FC<PlaceListProps> = (props) => {
                     <PlaceItem
                         key={place.id}
                         place={place}
+                        onDelete={props.onDeletePlace}
                     />
                 ))
             }
