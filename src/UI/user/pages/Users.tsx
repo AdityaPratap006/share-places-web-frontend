@@ -4,54 +4,45 @@ import styles from './Users.module.scss';
 // Model
 import { User } from '../../../models';
 
+// hooks
+import { useHttpClient } from '../../shared/hooks';
+
 // Components
 import UserList from '../components/UserList/UserList';
 import ErrorModal from '../../shared/components/ErrorModal/ErrorModal';
 import LoadingSpinner from '../../shared/components/LoadingSpinner/LoadingSpinner';
 
-interface ResponseData {
+interface UsersResponseData {
     users: User[],
     message?: string;
 }
 
 const Users: React.FC = () => {
-    const [users, setUsers] = useState<User[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [responseError, setResponseError] = useState<string>();
+    const [users, setUsers] = useState<User[]>();
+
+    const { isLoading, responseError, sendRequest, clearError } = useHttpClient<UsersResponseData>();
 
     useEffect(() => {
-        const sendRequest = async () => {
-            setIsLoading(true);
+        const fetchUsers = async () => {
+            const url = `http://localhost:5000/users`;
             try {
-                const response = await fetch(`http://localhost:5000/users`);
-                const responseData: ResponseData = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(responseData.message);
-                }
-
+                const responseData = await sendRequest(url);
                 setUsers(responseData.users);
             } catch (err) {
                 const error = err as Error;
                 console.log(error);
-                setResponseError(error.message || `Something went wrong!`);
-            } finally {
-                setIsLoading(false);
             }
         };
 
-        sendRequest();
-    }, []);
+        fetchUsers();
 
-    const resetResponseErrorHandler = () => {
-        setResponseError(undefined);
-    }
+    }, [sendRequest]);
 
     return (
         <React.Fragment>
             <ErrorModal
                 error={responseError}
-                onClear={resetResponseErrorHandler}
+                onClear={clearError}
             />
             {isLoading && (
                 <div className="center">
