@@ -3,7 +3,7 @@ import { useCallback, useReducer } from 'react';
 export interface FormState {
     inputs: {
         [key: string]: {
-            value: string | number | readonly string[];
+            value: string | number | readonly string[] | File | undefined;
             isValid: boolean;
         }
     };
@@ -19,7 +19,7 @@ interface InputChangeAction {
     type: FormActionTypes.INPUT_CHANGE;
     inputId: string;
     isValid: boolean;
-    value: string | number | readonly string[];
+    value: string | number | readonly string[] | File;
 }
 
 interface SetDataAction {
@@ -60,13 +60,13 @@ const formReducer = (state: FormState, action: FormAction): FormState => {
     }
 };
 
-type InputChangeHandler = (id: string, value: string | number | readonly string[], isValid: boolean) => void;
+type InputChangeHandler = (id: string, value: string | number | readonly string[] | File, isValid: boolean) => void;
 type SetFormDataHandler = (formStateData: FormState) => void;
 
 export const useForm = (INITIAL_STATE: FormState): [FormState, InputChangeHandler, SetFormDataHandler] => {
     const [formState, dispatch] = useReducer(formReducer, INITIAL_STATE);
 
-    const inputChangeHandler = useCallback((id: string, value: string | number | readonly string[], isValid: boolean) => {
+    const inputChangeHandler = useCallback((id: string, value: string | number | readonly string[] | File, isValid: boolean) => {
         const inputChangeAction: InputChangeAction = {
             type: FormActionTypes.INPUT_CHANGE,
             inputId: id,

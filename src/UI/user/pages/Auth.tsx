@@ -19,6 +19,7 @@ import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
 import ErrorModal from '../../shared/components/ErrorModal/ErrorModal';
 import LoadingSpinner from '../../shared/components/LoadingSpinner/LoadingSpinner';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 
 interface UserResponseData {
     user?: User;
@@ -64,6 +65,10 @@ const Auth: React.FC = () => {
                         value: '',
                         isValid: false,
                     },
+                    image: {
+                        value: undefined,
+                        isValid: false,
+                    }
                 },
                 isValid: false,
             });
@@ -87,8 +92,6 @@ const Auth: React.FC = () => {
 
             try {
                 const responseData = await sendRequest(url, 'POST', body, headers);
-                console.log({ responseData });
-
                 auth.login(responseData.user?.id!);
 
             } catch (err) {
@@ -110,8 +113,6 @@ const Auth: React.FC = () => {
 
             try {
                 const responseData = await sendRequest(url, 'POST', body, headers);
-                console.log({ responseData });
-
                 auth.login(responseData.user?.id!);
 
             } catch (err) {
@@ -146,6 +147,16 @@ const Auth: React.FC = () => {
                                 validators={[VALIDATOR_REQUIRE()]}
                                 errorText="Please enter a name."
                                 getInput={inputChangeHandler}
+                            />
+                        )
+                    }
+                    {
+                        !isLoginMode && (
+                            <ImageUpload
+                                id="image"
+                                center
+                                errorText={`Please pick a valid file`}
+                                onInput={inputChangeHandler}
                             />
                         )
                     }
