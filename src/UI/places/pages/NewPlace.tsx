@@ -36,6 +36,10 @@ const INITIAL_STATE: FormState = {
             value: '',
             isValid: false,
         },
+        image: {
+            value: undefined,
+            isValid: false,
+        },
     },
     isValid: false,
 };
