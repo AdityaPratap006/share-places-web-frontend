@@ -48,7 +48,10 @@ const PlaceItem: React.FC<PlaceItemProps> = (props) => {
         const url = `${API_BASE_URL}/places/${props.place.id}`;
         try {
             setShowDeleteWarning(false);
-            await sendRequest(url, 'DELETE');
+            const headers = {
+                Authorization: `Bearer ${auth.token}`,
+            }
+            await sendRequest(url, 'DELETE', null, headers);
             props.onDelete(props.place.id);
 
         } catch (error) {

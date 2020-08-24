@@ -96,6 +96,7 @@ const UpdatePlace: React.FC = () => {
             });
             const headers = {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${auth.token}`,
             }
 
             await sendRequest(url, 'PATCH', body, headers);

@@ -66,7 +66,8 @@ const NewPlace: React.FC = () => {
                 creatorId: auth.userId,
             });
             const headers = {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${auth.token}`,
             };
 
             await sendRequest(url, 'POST', body, headers);
