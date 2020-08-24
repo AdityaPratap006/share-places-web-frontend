@@ -3,6 +3,7 @@ import styles from './Auth.module.scss';
 
 // Utils
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../../utils/validators';
+import { toBase64 } from '../../../utils/fileConvert';
 
 // Models
 import { InputElement, User } from '../../../models';
@@ -65,7 +66,7 @@ const Auth: React.FC = () => {
                         value: '',
                         isValid: false,
                     },
-                    image: {
+                    profilePic: {
                         value: undefined,
                         isValid: false,
                     }
@@ -100,18 +101,18 @@ const Auth: React.FC = () => {
             }
 
         } else {
-
-            const url = `http://localhost:5000/users/signup`;
-            const body = JSON.stringify({
-                username: formState.inputs['name'].value,
-                email: formState.inputs['email'].value,
-                password: formState.inputs['password'].value,
-            });
-            const headers = {
-                'Content-Type': 'application/json'
-            };
-
             try {
+                const base64EncodedImage = await toBase64(formState.inputs['profilePic'].value as File);
+                const url = `http://localhost:5000/users/signup`;
+                const body = JSON.stringify({
+                    username: formState.inputs['name'].value,
+                    email: formState.inputs['email'].value,
+                    password: formState.inputs['password'].value,
+                    profilePic: base64EncodedImage,
+                });
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
                 const responseData = await sendRequest(url, 'POST', body, headers);
                 auth.login(responseData.user?.id!);
 
@@ -134,7 +135,9 @@ const Auth: React.FC = () => {
             />
             <Card className={styles['authentication']}>
                 {isLoading && <LoadingSpinner asOverlay />}
-                <h2 className={styles['authentication__header']}>Login</h2>
+                <h2 className={styles['authentication__header']}>
+                    {isLoginMode ? `LOGIN` : `SIGN UP`}
+                </h2>
                 <hr />
                 <form onSubmit={authSubmitHandler}>
                     {
@@ -152,12 +155,15 @@ const Auth: React.FC = () => {
                     }
                     {
                         !isLoginMode && (
-                            <ImageUpload
-                                id="image"
-                                center
-                                errorText={`Please pick a valid file`}
-                                onInput={inputChangeHandler}
-                            />
+                            <React.Fragment>
+                                <h4 className={styles['profile-pic-label']}>Profile Pic</h4>
+                                <ImageUpload
+                                    id="profilePic"
+                                    center
+                                    errorText={`Please pick a valid file`}
+                                    onInput={inputChangeHandler}
+                                />
+                            </React.Fragment>
                         )
                     }
                     <Input

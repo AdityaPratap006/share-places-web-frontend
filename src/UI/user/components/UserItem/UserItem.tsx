@@ -19,7 +19,7 @@ const UserItem: React.FC<UserItemProps> = (props) => {
             <Card className={styles['user-item']}>
                 <div className={styles['avatar-container']}>
                     <Avatar
-                        imageURL={user.image}
+                        imageURL={user.profilePic}
                         alt={user.name}
                         className={styles['avatar']}
                     />
