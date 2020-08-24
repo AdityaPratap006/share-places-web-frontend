@@ -8,6 +8,7 @@ import { InputElement, Place } from '../../../models';
 
 // Utils
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../../utils/validators';
+import { API_BASE_URL } from '../../../utils/api';
 
 // hooks
 import { useForm, FormState, useHttpClient } from '../../shared/hooks';
@@ -57,7 +58,7 @@ const UpdatePlace: React.FC = () => {
     useEffect(() => {
         const fetchPlace = async () => {
             try {
-                const url = `http://localhost:5000/places/${placeId}`;
+                const url = `${API_BASE_URL}/places/${placeId}`;
                 const responseData = await sendRequest(url);
                 setPlace(responseData.place);
 
@@ -88,7 +89,7 @@ const UpdatePlace: React.FC = () => {
     const formSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            const url = `http://localhost:5000/places/${placeId}`;
+            const url = `${API_BASE_URL}/places/${placeId}`;
             const body = JSON.stringify({
                 title: formState.inputs['title'].value,
                 description: formState.inputs['description'].value,

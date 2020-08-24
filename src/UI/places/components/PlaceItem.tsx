@@ -10,6 +10,9 @@ import { AuthContext } from '../../shared/context';
 // hooks
 import { useHttpClient } from '../../shared/hooks';
 
+// utils
+import { API_BASE_URL } from '../../../utils/api';
+
 // Components
 import Card from '../../shared/components/Card/Card';
 import Button from '../../shared/components/FormElements/Button';
@@ -42,7 +45,7 @@ const PlaceItem: React.FC<PlaceItemProps> = (props) => {
     }
 
     const confirmDeleteHandler = async () => {
-        const url = `http://localhost:5000/places/${props.place.id}`;
+        const url = `${API_BASE_URL}/places/${props.place.id}`;
         try {
             setShowDeleteWarning(false);
             await sendRequest(url, 'DELETE');

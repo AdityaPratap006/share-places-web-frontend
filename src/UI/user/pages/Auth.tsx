@@ -4,6 +4,7 @@ import styles from './Auth.module.scss';
 // Utils
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../../utils/validators';
 import { toBase64 } from '../../../utils/fileConvert';
+import { API_BASE_URL } from '../../../utils/api';
 
 // Models
 import { InputElement, User } from '../../../models';
@@ -82,7 +83,7 @@ const Auth: React.FC = () => {
         event.preventDefault();
 
         if (isLoginMode) {
-            const url = `http://localhost:5000/users/login`;
+            const url = `${API_BASE_URL}/users/login`;
             const body = JSON.stringify({
                 email: formState.inputs['email'].value,
                 password: formState.inputs['password'].value,
@@ -103,7 +104,7 @@ const Auth: React.FC = () => {
         } else {
             try {
                 const base64EncodedImage = await toBase64(formState.inputs['profilePic'].value as File);
-                const url = `http://localhost:5000/users/signup`;
+                const url = `${API_BASE_URL}/users/signup`;
                 const body = JSON.stringify({
                     username: formState.inputs['name'].value,
                     email: formState.inputs['email'].value,

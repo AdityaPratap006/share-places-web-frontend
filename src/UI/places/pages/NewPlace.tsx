@@ -8,6 +8,7 @@ import { InputElement } from '../../../models';
 // Utils
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../../utils/validators';
 import { toBase64 } from '../../../utils/fileConvert';
+import { API_BASE_URL } from '../../../utils/api';
 
 // hooks
 import { useForm, FormState, useHttpClient } from '../../shared/hooks/';
@@ -56,7 +57,7 @@ const NewPlace: React.FC = () => {
         event.preventDefault();
         try {
             const base64EncodedImage = await toBase64(formState.inputs['image'].value as File);
-            const url = `http://localhost:5000/places`;
+            const url = `${API_BASE_URL}/places`;
             const body = JSON.stringify({
                 title: formState.inputs['title'].value,
                 description: formState.inputs['description'].value,

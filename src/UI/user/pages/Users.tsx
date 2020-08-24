@@ -7,6 +7,9 @@ import { User } from '../../../models';
 // hooks
 import { useHttpClient } from '../../shared/hooks';
 
+// utils
+import { API_BASE_URL } from '../../../utils/api';
+
 // Components
 import UserList from '../components/UserList/UserList';
 import ErrorModal from '../../shared/components/ErrorModal/ErrorModal';
@@ -24,7 +27,7 @@ const Users: React.FC = () => {
 
     useEffect(() => {
         const fetchUsers = async () => {
-            const url = `http://localhost:5000/users`;
+            const url = `${API_BASE_URL}/users`;
             try {
                 const responseData = await sendRequest(url);
                 setUsers(responseData.users);

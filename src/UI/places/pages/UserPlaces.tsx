@@ -7,6 +7,9 @@ import { Place } from '../../../models';
 // hooks
 import { useHttpClient } from '../../shared/hooks';
 
+// utils
+import { API_BASE_URL } from '../../../utils/api';
+
 // Components
 import PlaceList from '../components/PlaceList';
 import ErrorModal from '../../shared/components/ErrorModal/ErrorModal';
@@ -34,7 +37,7 @@ const UserPlaces: React.FC = () => {
     useEffect(() => {
         const fetchUserPlaces = async () => {
             try {
-                const url = `http://localhost:5000/places/user/${userId}`;
+                const url = `${API_BASE_URL}/places/user/${userId}`;
                 const responseData = await sendRequest(url);
                 setLoadedPlaces(responseData.places);
             } catch (error) {
