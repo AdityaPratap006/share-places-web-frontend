@@ -7,7 +7,7 @@ import { toBase64 } from '../../../utils/fileConvert';
 import { API_BASE_URL } from '../../../utils/api';
 
 // Models
-import { InputElement, User } from '../../../models';
+import { InputElement } from '../../../models';
 
 // hooks
 import { useForm, FormState, useHttpClient } from '../../shared/hooks';
@@ -24,7 +24,9 @@ import LoadingSpinner from '../../shared/components/LoadingSpinner/LoadingSpinne
 import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 
 interface UserResponseData {
-    user?: User;
+    userId: string;
+    email: string;
+    token: string;
     message?: string;
 }
 
@@ -94,7 +96,7 @@ const Auth: React.FC = () => {
 
             try {
                 const responseData = await sendRequest(url, 'POST', body, headers);
-                auth.login(responseData.user?.id!);
+                auth.login(responseData.userId, responseData.token);
 
             } catch (err) {
                 const error = err as Error;
@@ -115,7 +117,7 @@ const Auth: React.FC = () => {
                     'Content-Type': 'application/json'
                 };
                 const responseData = await sendRequest(url, 'POST', body, headers);
-                auth.login(responseData.user?.id!);
+                auth.login(responseData.userId, responseData.token);
 
             } catch (err) {
                 const error = err as Error;
