@@ -7,6 +7,7 @@ import { InputElement } from '../../../models';
 
 // Utils
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../../utils/validators';
+import { toBase64 } from '../../../utils/fileConvert';
 
 // hooks
 import { useForm, FormState, useHttpClient } from '../../shared/hooks/';
@@ -19,7 +20,7 @@ import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
 import ErrorModal from '../../shared/components/ErrorModal/ErrorModal';
 import LoadingSpinner from '../../shared/components/LoadingSpinner/LoadingSpinner';
-
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 
 const INITIAL_STATE: FormState = {
     inputs: {
@@ -50,11 +51,13 @@ const NewPlace: React.FC = () => {
     const formSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
+            const base64EncodedImage = await toBase64(formState.inputs['image'].value as File);
             const url = `http://localhost:5000/places`;
             const body = JSON.stringify({
                 title: formState.inputs['title'].value,
                 description: formState.inputs['description'].value,
                 address: formState.inputs['address'].value,
+                imageFileString: base64EncodedImage,
                 creatorId: auth.userId,
             });
             const headers = {
@@ -102,6 +105,11 @@ const NewPlace: React.FC = () => {
                     validators={[VALIDATOR_REQUIRE()]}
                     errorText="An address is required."
                     getInput={inputChangeHandler}
+                />
+                <ImageUpload
+                    id="image"
+                    onInput={inputChangeHandler}
+                    errorText={`Please provide an image!`}
                 />
                 <Button
                     type="submit"
