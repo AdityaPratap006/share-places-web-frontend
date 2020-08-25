@@ -63,7 +63,6 @@ const NewPlace: React.FC = () => {
                 description: formState.inputs['description'].value,
                 address: formState.inputs['address'].value,
                 imageFileString: base64EncodedImage,
-                creatorId: auth.userId,
             });
             const headers = {
                 'Content-Type': 'application/json',
