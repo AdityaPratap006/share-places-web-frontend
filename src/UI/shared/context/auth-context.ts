@@ -4,7 +4,7 @@ interface IAuthContext {
     token: string | undefined;
     isLoggedIn: boolean;
     userId: string | null;
-    login: (userId: string, token: string) => void;
+    login: (userId: string, token: string, expirationDate?: Date) => void;
     logout: () => void;
 }
 
