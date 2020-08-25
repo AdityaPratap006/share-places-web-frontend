@@ -29,7 +29,7 @@ const NavLinks: React.FC = () => {
             {
                 !auth.isLoggedIn && (
                     <li>
-                        <NavLink exact to="/auth" activeClassName={styles['active']}>LOGIN</NavLink>
+                        <NavLink exact to="/auth" activeClassName={styles['active']}>AUTHENTICATE</NavLink>
                     </li>
                 )
             }
