@@ -32,6 +32,7 @@ function App() {
   const logout = useCallback(() => {
     setToken(undefined);
     setUserId(null);
+    localStorage.removeItem('userData');
   }, []);
 
   useEffect(() => {
@@ -39,10 +40,10 @@ function App() {
     if (localUserData) {
       const userData = JSON.parse(localUserData) as { userId: string; token: string; };
       if (userData.token) {
-        setCheckingAuthState(false);
         login(userData.userId, userData.token);
       }
     }
+    setCheckingAuthState(false);
   }, [login]);
 
   if (checkingAuthState) {
