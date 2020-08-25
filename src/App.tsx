@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
 // Components
@@ -10,16 +10,22 @@ import NewPlace from './UI/places/pages/NewPlace';
 import UserPlaces from './UI/places/pages/UserPlaces';
 import UpdatePlace from './UI/places/pages/UpdatePlace';
 import Auth from './UI/user/pages/Auth';
+import SplashScreen from './UI/shared/pages/SplashScreen';
 
 // Contexts
 import { AuthContext } from './UI/shared/context';
 
 function App() {
+  const [checkingAuthState, setCheckingAuthState] = useState<boolean>(true);
   const [token, setToken] = useState<string>();
   const [userId, setUserId] = useState<string | null>(null);
 
   const login = useCallback((uid: string, token: string) => {
     setToken(token);
+    localStorage.setItem('userData', JSON.stringify({
+      userId: uid,
+      token: token,
+    }));
     setUserId(uid);
   }, []);
 
@@ -27,6 +33,21 @@ function App() {
     setToken(undefined);
     setUserId(null);
   }, []);
+
+  useEffect(() => {
+    const localUserData = localStorage.getItem('userData');
+    if (localUserData) {
+      const userData = JSON.parse(localUserData) as { userId: string; token: string; };
+      if (userData.token) {
+        setCheckingAuthState(false);
+        login(userData.userId, userData.token);
+      }
+    }
+  }, [login]);
+
+  if (checkingAuthState) {
+    return <SplashScreen />;
+  }
 
   let routes;
 

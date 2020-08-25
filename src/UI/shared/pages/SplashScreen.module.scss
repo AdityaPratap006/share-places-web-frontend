@@ -1,0 +1,18 @@
+.splash-screen {
+    width: 100vw;
+    max-width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .card {
+        max-width: 80%;
+        text-align: center;
+        background-color: #ff0055;
+
+        h1 {
+            color: #fff;
+        }
+    }
+}
